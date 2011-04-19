@@ -28,7 +28,7 @@ typedef void (*pt2SortFunction)(int unorderedIntegers[]);
 
 // Global Constants ////////////////////////////////////////////////////////////
 const int SORT_ERROR = -1;
-const int MAX_ARRAY_SIZE = 100000;
+const int MAX_ARRAY_SIZE = 10;
 const int MAX_NUMBER_USER_SELECTIONS = 2;
 
 enum UserSelections
@@ -64,6 +64,12 @@ void QuickSort                        ( int unorderedList[],
 bool VerifySortedArray                ( int sortedIntegers[] );
 void DisplayResultAverage             ( int **sortTimesByType );
 
+// TEMPORARY METHOD TO PRINT ARRAY
+void PrintArray(int array[])
+{
+  for( int i = 0; i < MAX_ARRAY_SIZE; ++i )
+    cout << array[i] << ", ";
+}
 
 //*********************************************************************
 // FUNCTION       : main
@@ -90,7 +96,7 @@ int main( int argc, char* argv[] )
   
   GetUserSelections( iterations, userSelections );
   
-  for( int sortSelectionIter = 0; sortSelectionIter < 2; ++sortSelectionIter )
+  for( int sortSelectionIter = 0; sortSelectionIter < 1; ++sortSelectionIter )
   {
     sortTimes[userSelections[sortSelectionIter]] = new int[iterations];
     for( int iter = 0; iter < iterations; ++iter )
@@ -171,7 +177,7 @@ int PerformSort(void (*pt2SortFunction)(int unorderedIntegers[]))
   (*pt2SortFunction)(unorderedIntegers);    
   endTime = clock();
   
-  if( VerifySortedArray( unorderedIntegers ) )
+   if( VerifySortedArray( unorderedIntegers ) )
     return endTime - startTime;
   
   return SORT_ERROR;
@@ -187,7 +193,7 @@ int PerformSort(void (*pt2SortFunction)(int unorderedIntegers[]))
 //  	Parameters	: unorderedIntegers[] - int array of sorted numbers
 //	Return        : void
 // CALLS TO       : 
-// IMPLEMENTED BY	: 
+// IMPLEMENTED BY	: Ben
 //*********************************************************************
 void PerformBubbleSort( int unorderedIntegers[] )
 {
@@ -203,10 +209,29 @@ void PerformBubbleSort( int unorderedIntegers[] )
 //  	Parameters	: unorderedIntegers[] - int array of sorted numbers
 //	Return        : void	- time taken to sort
 // CALLS TO		    : 
-// IMPLEMENTED BY	: 
+// IMPLEMENTED BY	: Nick
 //*********************************************************************
 void PerformInsertionSort( int unorderedIntegers[] )
 {
+  int remainTopIdx = 1,
+      lastIdx = MAX_ARRAY_SIZE - 1,
+      insertValue = 0,
+      currentIdx = 0;
+  
+  while( remainTopIdx <= lastIdx )
+  {
+    insertValue = unorderedIntegers[remainTopIdx];
+    currentIdx = remainTopIdx - 1;
+    
+    while( currentIdx >= 0 && insertValue < unorderedIntegers[currentIdx] )
+    {
+      unorderedIntegers[currentIdx + 1] = unorderedIntegers[currentIdx];
+      currentIdx--;
+    }
+    
+    unorderedIntegers[currentIdx + 1] = insertValue;
+    remainTopIdx++;
+  }
 }
 
 //*********************************************************************
@@ -310,63 +335,63 @@ void MergeList( int unorderedList[], int lowIdx, int midIdx, int highIdx )
 }
 
 //*********************************************************************
-// FUNCTION		: PerformQuickSort
-// DESCRIPTION	: sorts an array of integers using the quick sort
-//			  method
+// FUNCTION       : PerformQuickSort
+// DESCRIPTION    : sorts an array of integers using the quick sort
+//                  method
 // INPUT
-//	Parameters	: unorderedIntegers[] - array of unordered integers
+//    Parameters	: unorderedIntegers[] - array of unordered integers
 // OUTPUT   
-//  	Parameters	: randNums[] - int array of sorted numbers
-//	Return	: double	- time taken to sort
-// CALLS TO		: 
-// IMPLEMENTED BY	: 
+//  	Parameters	: unorderedIntegers[] - int array of sorted numbers
+//    Return      : void
+// CALLS TO       : 
+// IMPLEMENTED BY : Ben
 //*********************************************************************
 void PerformQuickSort( int unorderedIntegers[] )
 {
 }
 
 //*********************************************************************
-// FUNCTION		: QuickSort
-// DESCRIPTION	: Recursive implementation of quick sort algorithm
+// FUNCTION       : QuickSort
+// DESCRIPTION    : Recursive implementation of quick sort algorithm
 // INPUT
-//	Parameters	: lowIdx		- low index of range in list to merge
-//			  highIdx		- high index of range “ “ “ “
+//	Parameters    : lowIdx		- low index of range in list to merge
+//			            highIdx		- high index of range “ “ “ “
 // OUTPUT   
 //  	Parameters	: unorderedIntegers[] 	- array fully or partially ordered numbers
-//	Return	: void
-// CALLS TO		: PerformInsertionSort
-// IMPLEMENTED BY	: Nick
+//    Return      : void
+// CALLS TO       : PerformInsertionSort
+// IMPLEMENTED BY : Ben
 //*********************************************************************
 void QuickSort( int unorderedIntegers[], int lowIdx, int highIdx )
 {
 }
 
 //*********************************************************************
-// FUNCTION		: VerifySortedArray
-// DESCRIPTION	: verifies that an array of numbers has been sorted
-//			  and outputs an error message to the screen if it 
-//			  is not
+// FUNCTION       : VerifySortedArray
+// DESCRIPTION    : verifies that an array of numbers has been sorted
+//                  and outputs an error message to the screen if it 
+//                  is not
 // INPUT
-//	Parameters	: sortedIntegers[] - int array to be verified
+//    Parameters	: sortedIntegers[] - int array to be verified
 // OUTPUT   	
 //  	Return Val	: bool	 - true if sorted
-// CALLS TO		: none
-// IMPLEMENTED BY	: 
+//    CALLS TO    : none
+// IMPLEMENTED BY : Ben
 //*********************************************************************
 bool VerifySortedArray( int sortedIntegers[] )
 {
 }
 
 //*********************************************************************
-// FUNCTION		: DisplayResults
-// DESCRIPTION	: displays average sort times for each sort type
+// FUNCTION       : DisplayResults
+// DESCRIPTION    : displays average sort times for each sort type
 // INPUT
-//	Parameters	: sortTimesByType[] - 2 dimensional array
-//						    [type][times]
+//	Parameters    : sortTimesByType[] - 2 dimensional array
+//						      [type][times]
 // OUTPUT   	
 //  	Return Val	: void
-// CALLS TO		: none
-// IMPLEMENTED BY	: 
+// CALLS TO       : none
+// IMPLEMENTED BY : Ben
 //*********************************************************************
 void DisplayResultAverage( int **sortTimesByType )
 {
